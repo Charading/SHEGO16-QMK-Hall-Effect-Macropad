@@ -16,6 +16,8 @@ An RP2040-powered 4x4 15 key macropad with a knob on the top row, that runs cust
 - Blink LED on GPIO25
 
 I cant find a Hall effect keyboard that i genuinely like that has all the features that i want so i thought to make one myself. Technically i am still in prototype phase for the 'endgame' board i yearn to have, this was a originally a little test board that I was making so I could figure out how to do firmware. I've been working months on end on this project with many pcbs and components surrounding me. The end goal is a 75% keyboard, knob, a tft screen that can play gifs, **north** facing RGB (my goodness i hate south facing), and magnetic switches with socd. Sadly I think it would be too difficult to create a software/web utility to control certain features of the board so thats why after weeks on end trying to build firmware from scratch with C, then scrapped that and tried Rust, then scrapped again and thought to use heavily edited qmk, i am now here.
+For my big 75%, the screen will now be implemented by using an ESP32 running a GIF decoder that accepts UART commands and it uses SD card for storage: https://github.com/Charading/ESP32-GIF-Player 
+
 
 This was one of my first ever pcbs
 ![ Alt text](/images/shego16_pcb-front.jpg)
