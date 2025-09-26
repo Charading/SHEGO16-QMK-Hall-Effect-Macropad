@@ -1,0 +1,56 @@
+//SPI control pins
+#define SPI_SCL GP2
+#define SPI_SDA GP3
+#define SPI_RES GP4
+#define SPI_DC GP5
+#define SPI_CS GP24
+
+
+// MUX control pins
+#define MUX_S0 GP10
+#define MUX_S1 GP11
+#define MUX_S2 GP12
+#define MUX_S3 GP13
+
+// MUX enable pins (active low)
+#define MUX1_EN GP14
+#define MUX2_EN GP15
+
+// ADC pins for reading mux outputs
+#define MUX1_ADC_PIN GP29
+#define MUX2_ADC_PIN GP28
+
+// Hall effect threshold
+#define HALL_THRESHOLD 350
+
+// Mux to sensor wiring, every unused channel is GND. Mux is HC4067, sensors are SS49E.
+/*
+MUX1 
+i0 he2
+i1 he3
+i6 he7
+i7 he6
+i8 he5
+i9 he4
+i15 he1
+
+MUX2
+i0 he10
+i1 he11
+i6 he15
+i7 he14
+i8 he13
+i9 he12
+i14 he8
+i15 he9
+*/
+
+
+const uint16_t key_thresholds[32] = {
+    // MUX1 thresholds
+    380, 360, 0, 0, 0, 0, 375, 380, 399, 399, 0, 0, 0, 0, 0, 380,  // E key (ch8) gets 320
+    // MUX2 thresholds  
+    340, 400, 0, 0, 0, 0, 330, 390, 380, 410, 0, 0, 0, 0, 366, 460
+};
+
+Okay, so, is there a way to instead of using a static threshold, to make it so the keyboard scans all adc keys when plugged in, and then it only does a key press when the value deviates up OR down 20% away

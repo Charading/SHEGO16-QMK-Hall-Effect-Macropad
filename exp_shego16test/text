@@ -1,0 +1,65 @@
+const vKeys = [
+	0, 1, 2,           // Top row (no key for encoder knob)
+	3, 4, 5, 6,
+	7, 8, 9, 10,
+	11, 12, 13, 14
+];
+
+const vKeyNames = [
+	"1", "2", "3",      // Top row
+	"Q", "W", "E", "R",
+	"A", "S", "D", "F",
+	"Z", "X", "C", "V"
+];
+
+const vKeyPositions = [
+	[0, 0], [1, 0], [2, 0],      // Top row (no [3,0])
+	[0, 1], [1, 1], [2, 1], [3, 1],
+	[0, 2], [1, 2], [2, 2], [3, 2],
+	[0, 3], [1, 3], [2, 3], [3, 3]
+];
+
+
+
+
+
+
+// Real ADC reading (same approach as your working pico_test.c)
+static uint16_t read_adc_pin(pin_t pin) {
+    return analogReadPin(pin);
+}
+
+static void select_mux_channel(uint8_t channel) {
+    writePin(MUX_S0, (channel & 0x01) ? 1 : 0);
+    writePin(MUX_S1, (channel & 0x02) ? 1 : 0);
+    writePin(MUX_S2, (channel & 0x04) ? 1 : 0);
+    writePin(MUX_S3, (channel & 0x08) ? 1 : 0);
+    wait_us(50);
+}
+
+void matrix_init_custom(void) {
+    // Setup MUX control pins
+    setPinOutput(MUX_S0);
+    setPinOutput(MUX_S1);
+    setPinOutput(MUX_S2);
+    setPinOutput(MUX_S3);
+    setPinOutput(MUX1_EN);
+    setPinOutput(MUX2_EN);
+    
+    // Disable both MUXes (active low)
+    writePinHigh(MUX1_EN);
+    writePinHigh(MUX2_EN);
+    
+    // Initialize state
+    for (uint8_t i = 0; i < 32; i++) {
+        key_pressed[i] = false;
+        key_timer[i] = 0;
+    }
+    
+    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+        matrix_state[row] = 0;
+    }
+
+}
+
+
